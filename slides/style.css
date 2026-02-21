@@ -1,0 +1,21 @@
+/* Increase code block font size */
+.slidev-code {
+  font-size: 1em !important;
+}
+
+/* Full opacity for images in content */
+.slidev-layout p img {
+  opacity: 1 !important;
+}
+
+/* Force Mermaid diagram to 100% width */
+.mermaid {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.mermaid svg {
+  width: 100% !important;
+  height: auto !important;
+}
