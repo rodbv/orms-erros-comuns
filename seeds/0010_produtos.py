@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from decimal import Decimal, ROUND_HALF_UP
 import random
+from decimal import Decimal
 
 from api.models import Produto
 
@@ -38,8 +38,8 @@ LINHAS = ["Essencial", "Pro", "Ultra", "Max", "Air", "Prime", "Vision", "Turbo",
 ESPECIFICACOES = {
     "Smartphone": ["128GB", "256GB", "5G", "Tela AMOLED", "NFC"],
     "Notebook": ["Intel i5", "Intel i7", "Ryzen 5", "16GB RAM", "SSD 512GB"],
-    "Monitor": ["24\"", "27\"", "IPS", "144Hz", "QHD"],
-    "TV": ["4K", "55\"", "65\"", "HDR", "Smart TV"],
+    "Monitor": ['24"', '27"', "IPS", "144Hz", "QHD"],
+    "TV": ["4K", '55"', '65"', "HDR", "Smart TV"],
     "Fone": ["Bluetooth", "Cancelamento de Ruído", "TWS", "Over-ear", "USB-C"],
     "Mouse": ["Sem fio", "6400 DPI", "RGB", "Ergonômico", "Bluetooth"],
     "Teclado": ["Mecânico", "ABNT2", "RGB", "Sem fio", "Switch Blue"],
@@ -50,8 +50,26 @@ ESPECIFICACOES = {
 
 
 def _preco_aleatorio(minimo: Decimal, maximo: Decimal, rng: random.Random) -> Decimal:
-    valor = rng.uniform(float(minimo), float(maximo))
-    return Decimal(str(valor)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    centavos_possiveis = [Decimal("0.00"), Decimal("0.90"), Decimal("0.99")]
+    min_inteiro = int(minimo)
+    max_inteiro = int(maximo)
+
+    for _ in range(50):
+        inteiro = rng.randint(min_inteiro, max_inteiro)
+        centavos = rng.choice(centavos_possiveis)
+        valor = Decimal(inteiro) + centavos
+        if minimo <= valor <= maximo:
+            return valor
+
+    inteiro = max_inteiro
+    while inteiro >= min_inteiro:
+        for centavos in (Decimal("0.99"), Decimal("0.90"), Decimal("0.00")):
+            valor = Decimal(inteiro) + centavos
+            if minimo <= valor <= maximo:
+                return valor
+        inteiro -= 1
+
+    return minimo
 
 
 def run(num_itens: int = NUM_ITENS) -> int:

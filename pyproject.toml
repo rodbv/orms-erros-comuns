@@ -11,11 +11,44 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pre-commit",
     "pytest",
     "pytest-django",
     "model-bakery",
+    "ruff",
+    "django-upgrade",
 ]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
 DJANGO_SETTINGS_MODULE = "backend.settings"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+fix = true
+show-fixes = true
+
+[tool.ruff.format]
+line-ending = "lf"
+quote-style = "double"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # bugbear
+    "SIM", # simplify
+    "C4",  # comprehensions
+    "PIE", # misc lints
+    "T20", # print statements
+    "RUF", # Ruff-specific
+]
+ignore = [
+    "E203", # whitespace before ':' (compat with formatter)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"api/migrations/*.py" = ["E501", "RUF012"]

@@ -1,7 +1,9 @@
 import secrets
 import string
+from decimal import Decimal
 
 from django.db import models
+from django.db.models import DecimalField, ExpressionWrapper, F, Sum
 
 
 class BaseModel(models.Model):
@@ -55,11 +57,22 @@ class Pedido(BaseModel):
         db_column="cliente_id",
     )
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.ABERTO)
-    valor_total = models.DecimalField(max_digits=12, decimal_places=2)
     num_pedido = models.CharField(max_length=7, unique=True, db_index=True, editable=False)
     numero_pedido = models.CharField(max_length=30, unique=True)
     data_faturamento = models.DateTimeField(null=True, blank=True)
     observacoes = models.TextField(blank=True)
+
+    @property
+    def valor_total(self) -> Decimal:
+        total = self.itens.aggregate(
+            total=Sum(
+                ExpressionWrapper(
+                    F("valor_unitario") * F("quantidade"),
+                    output_field=DecimalField(max_digits=12, decimal_places=2),
+                )
+            )
+        )["total"]
+        return total or Decimal("0.00")
 
     @staticmethod
     def gerar_num_pedido() -> str:
@@ -102,7 +115,6 @@ class ItemPedido(BaseModel):
     valor_unitario = models.DecimalField(max_digits=12, decimal_places=2)
     observacoes = models.TextField(blank=True)
     numero_item = models.PositiveSmallIntegerField(default=1)
-    valor_desconto = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     cancelado = models.BooleanField(default=False)
 
     def __str__(self) -> str:

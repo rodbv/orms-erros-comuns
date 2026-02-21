@@ -1,5 +1,4 @@
 import re
-from decimal import Decimal
 
 import pytest
 from model_bakery import baker
@@ -12,13 +11,11 @@ def test_pedido_num_pedido_gerado_com_formato_valido_e_unico():
     pedido_1 = baker.make(
         "api.Pedido",
         cliente=cliente,
-        valor_total=Decimal("100.00"),
         numero_pedido="PED-0001",
     )
     pedido_2 = baker.make(
         "api.Pedido",
         cliente=cliente,
-        valor_total=Decimal("200.00"),
         numero_pedido="PED-0002",
     )
 
@@ -33,13 +30,12 @@ def test_pedido_num_pedido_gerado_com_formato_valido_e_unico():
 def test_pedido_num_pedido_nao_muda_em_update():
     pedido = baker.make(
         "api.Pedido",
-        valor_total=Decimal("150.00"),
         numero_pedido="PED-0100",
     )
     num_pedido_original = pedido.num_pedido
 
-    pedido.valor_total = Decimal("175.00")
-    pedido.save()
+    pedido.observacoes = "Atualizado para teste"
+    pedido.save(update_fields=["observacoes"])
     pedido.refresh_from_db()
 
     assert pedido.num_pedido == num_pedido_original

@@ -78,9 +78,7 @@ class Command(BaseCommand):
             return []
 
         arquivos = [
-            arquivo
-            for arquivo in pasta_seeds.glob("*.py")
-            if arquivo.name != "__init__.py"
+            arquivo for arquivo in pasta_seeds.glob("*.py") if arquivo.name != "__init__.py"
         ]
         return sorted(arquivos, key=lambda arquivo: arquivo.name)
 
@@ -104,14 +102,17 @@ class Command(BaseCommand):
         quantidade = override_num_itens if override_num_itens is not None else num_itens_padrao
 
         if quantidade is None:
-            raise CommandError(
-                f"Seed inválido ({caminho_seed.name}): NUM_ITENS ausente e nenhum override informado"
+            mensagem = (
+                f"Seed inválido ({caminho_seed.name}): NUM_ITENS ausente "
+                "e nenhum override informado"
             )
+            raise CommandError(mensagem)
 
         if not isinstance(quantidade, int) or quantidade <= 0:
             raise CommandError(f"Quantidade inválida para {caminho_seed.name}: {quantidade}")
 
-        self.stdout.write(self.style.NOTICE(f"Executando {caminho_seed.name} com {quantidade} itens..."))
+        mensagem = f"Executando {caminho_seed.name} com {quantidade} itens..."
+        self.stdout.write(self.style.NOTICE(mensagem))
 
         resultado = modulo.run(quantidade)
         if resultado is None:

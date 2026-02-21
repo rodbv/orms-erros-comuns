@@ -22,4 +22,3 @@ flowchart LR
   A[Aplicação] --> B[ORM]
   B --> C[(Banco de dados)]
 ```
-

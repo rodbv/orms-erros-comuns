@@ -1,8 +1,22 @@
+from contextlib import suppress
+
 from django.apps import apps
 from django.contrib import admin
 from django.core.exceptions import ImproperlyConfigured
 
 from api.models import Cliente, ItemPedido, Pedido, Produto
+
+
+class ItemPedidoInline(admin.TabularInline):
+    model = ItemPedido
+    extra = 0
+    fields = (
+        "produto",
+        "quantidade",
+        "valor_unitario",
+        "observacoes",
+        "cancelado",
+    )
 
 
 @admin.register(Cliente)
@@ -19,9 +33,18 @@ class ProdutoAdmin(admin.ModelAdmin):
 
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ("id", "num_pedido", "numero_pedido", "cliente", "status", "valor_total", "data_criacao")
+    list_display = (
+        "id",
+        "num_pedido",
+        "numero_pedido",
+        "cliente",
+        "status",
+        "valor_total",
+        "data_criacao",
+    )
     list_filter = ("status",)
     search_fields = ("num_pedido", "numero_pedido", "cliente__nome", "cliente__sobrenome")
+    inlines = (ItemPedidoInline,)
 
 
 @admin.register(ItemPedido)
@@ -36,7 +59,5 @@ modelos_com_admin_customizado = {Cliente, Produto, Pedido, ItemPedido}
 for model in apps.get_app_config("api").get_models():
     if model in modelos_com_admin_customizado:
         continue
-    try:
+    with suppress(admin.sites.AlreadyRegistered, ImproperlyConfigured):
         admin.site.register(model)
-    except (admin.sites.AlreadyRegistered, ImproperlyConfigured):
-        pass

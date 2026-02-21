@@ -24,4 +24,3 @@ Projeto da talk usando backend em Django + DRF e frontend em React (Vite).
 - Rodar em modo desenvolvimento: `just slides`
 - Build de produção: `just slides-build`
 - Abrir no navegador: `http://localhost:3030`
-
