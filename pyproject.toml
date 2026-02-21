@@ -1,0 +1,19 @@
+[project]
+name = "orms-erros-comuns"
+version = "0.1.0"
+description = "Talk: ORMs - Erros Comuns (FastAPI + React)"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "httpx",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
