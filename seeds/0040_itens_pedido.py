@@ -5,6 +5,7 @@ import random
 from django.db import transaction
 
 from api.models import ItemPedido, Pedido, Produto
+from seeds.utils import apply_random_timestamps
 
 NUM_ITENS = 2000
 
@@ -51,5 +52,6 @@ def run(num_itens: int = NUM_ITENS) -> int:
             )
 
     ItemPedido.objects.bulk_create(itens)
+    apply_random_timestamps(itens, rng)
 
     return len(itens)

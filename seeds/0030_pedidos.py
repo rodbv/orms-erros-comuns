@@ -4,6 +4,7 @@ import datetime as dt
 import random
 
 from api.models import Cliente, Pedido
+from seeds.utils import apply_random_timestamps
 
 NUM_ITENS = 2000
 
@@ -52,5 +53,7 @@ def run(num_itens: int = NUM_ITENS) -> int:
         )
         pedido.save()
         pedidos.append(pedido)
+
+    apply_random_timestamps(pedidos, rng)
 
     return len(pedidos)

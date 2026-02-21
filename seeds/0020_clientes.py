@@ -4,6 +4,7 @@ import datetime as dt
 import random
 
 from api.models import Cliente
+from seeds.utils import apply_random_timestamps
 
 NUM_ITENS = 80
 
@@ -119,4 +120,5 @@ def run(num_itens: int = NUM_ITENS) -> int:
         )
 
     Cliente.objects.bulk_create(clientes)
+    apply_random_timestamps(clientes, rng)
     return len(clientes)

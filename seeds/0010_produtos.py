@@ -4,6 +4,7 @@ import random
 from decimal import Decimal
 
 from api.models import Produto
+from seeds.utils import apply_random_timestamps
 
 NUM_ITENS = 100
 
@@ -109,4 +110,5 @@ def run(num_itens: int = NUM_ITENS) -> int:
         )
 
     Produto.objects.bulk_create(produtos)
+    apply_random_timestamps(produtos, rng)
     return len(produtos)

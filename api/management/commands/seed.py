@@ -78,7 +78,9 @@ class Command(BaseCommand):
             return []
 
         arquivos = [
-            arquivo for arquivo in pasta_seeds.glob("*.py") if arquivo.name != "__init__.py"
+            arquivo
+            for arquivo in pasta_seeds.glob("*.py")
+            if arquivo.name != "__init__.py" and arquivo.stem[:4].isdigit()
         ]
         return sorted(arquivos, key=lambda arquivo: arquivo.name)
 
