@@ -1,19 +1,21 @@
 [project]
 name = "orms-erros-comuns"
 version = "0.1.0"
-description = "Talk: ORMs - Erros Comuns (FastAPI + React)"
+description = "Talk: ORMs - Erros Comuns (Django DRF + React)"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "fastapi",
-    "uvicorn",
+    "django",
+    "djangorestframework",
 ]
 
 [dependency-groups]
 dev = [
     "pytest",
-    "httpx",
+    "pytest-django",
+    "model-bakery",
 ]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+DJANGO_SETTINGS_MODULE = "backend.settings"
