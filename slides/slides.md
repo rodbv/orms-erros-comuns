@@ -342,3 +342,45 @@ layout: image
 image: /024_report_2000-no-nplusone.png
 backgroundSize: contain
 ---
+
+---
+
+# Tava tudo bem até uma featura nova aparecer
+
+
+#### "Vamos por um campo vetorizado no modelo pra busca semântica, mas desencana que não muda nada nos reports"
+
+<div class="mt-8 mx-auto max-w-4xl text-left">
+
+
+````md magic-move
+```python
+class Cliente(BaseModel):
+    nome = models.CharField(max_length=120)
+    sobrenome = models.CharField(max_length=120)
+    email = models.EmailField(unique=True)
+```
+```python
+class Cliente(BaseModel):
+    nome = models.CharField(max_length=120)
+    sobrenome = models.CharField(max_length=120)
+    email = models.EmailField(unique=True)
+    vectorized_data = models.TextField(blank=True, default="")
+```
+````
+
+</div>
+
+
+---
+layout: image
+image: /024_report_2000-no-nplusone.png
+backgroundSize: contain
+transition: fade
+---
+
+---
+layout: image
+image: /026_memoria.png
+backgroundSize: contain
+---

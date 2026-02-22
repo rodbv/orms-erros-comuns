@@ -23,6 +23,7 @@ class Cliente(BaseModel):
     cpf = models.CharField(max_length=14, unique=True)
     cidade = models.CharField(max_length=120)
     ativo = models.BooleanField(default=True)
+    vectorized_data = models.TextField(blank=True, default="")
 
     def __str__(self) -> str:
         return f"{self.nome} {self.sobrenome}".strip()
@@ -61,6 +62,7 @@ class Pedido(BaseModel):
     data_faturamento = models.DateTimeField(null=True, blank=True)
     observacoes = models.TextField(blank=True)
     valor_total = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    vectorized_data = models.TextField(blank=True, default="")
 
     @staticmethod
     def gerar_num_pedido() -> str:
@@ -104,11 +106,12 @@ class ItemPedido(BaseModel):
     valor_unitario = models.DecimalField(max_digits=12, decimal_places=2)
     valor_total = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
     observacoes = models.TextField(blank=True)
+    vectorized_data = models.TextField(blank=True, default="")
     numero_item = models.PositiveSmallIntegerField(default=1)
     cancelado = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        self.valor_total = self.valor_unitario * self.quantidade
+        self.valor_total = Decimal(str(self.valor_unitario)) * self.quantidade
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
