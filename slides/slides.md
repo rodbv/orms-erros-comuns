@@ -497,11 +497,12 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 </div>
 
 ---
+
 # Em resumo
 
 - N+1 queries são o erro mais comum — use `.select_related()` e `.prefetch_related()`
-- Colunas desnecessárias consomem memória — exclua com `.only()`
-- Testes de regressão salvam a vida — `django_assert_num_queries()` previne surpresas
+- Colunas desnecessárias consomem memória — busque só que você quer com `.only()`
+- Testes de regressão são fundamentais — `django_assert_num_queries()` previne surpresas
 - Estes problemas existem em qualquer ORM — FastAPI, Flask, SQLAlchemy, etc
 - Código gerado por IA frequentemente tem esses erros — entender esses conceitos é crítico para revisar e corrigir
 
@@ -512,6 +513,7 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 rodrigo.vieira@gmail.com
 
 ---
+
 # E se eu uso Pandas?
 
 #### O mesmo tipo de erro é possível: carregar dados em loop
