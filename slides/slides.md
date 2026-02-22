@@ -1,5 +1,6 @@
 ---
 theme: dracula
+layout: cover
 css: ./style.css
 title: ORMs - Erros Comuns
 info: Como evitar armadilhas ao usar ORMs com FastAPI
@@ -503,6 +504,8 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 </div>
 
 ---
+layout: section
+---
 
 # Então lembrem-se amiguinhes! 🚀
 
@@ -517,6 +520,8 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 </div>
 
 ---
+layout: end
+---
 
 # Obrigado!
 
@@ -525,7 +530,7 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 
 ---
 
-# E se eu uso Pandas?
+# Pós-crédito: E se eu uso Pandas?
 
 #### O mesmo tipo de erro é possível: carregar dados em loop
 
@@ -546,6 +551,8 @@ resultado = pedidos.merge(
 )
 ```
 
+---
+layout: end
 ---
 
 # Agora tchau mesmo
