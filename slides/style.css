@@ -34,3 +34,8 @@
 .slidev-layout.clientes-table-slide table {
   margin-top: 1.5rem !important;
 }
+
+.slidev-layout.clientes-table-slide table tr > :nth-child(n + 3) {
+  color: #16a34a !important;
+  font-weight: 600;
+}

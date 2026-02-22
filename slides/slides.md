@@ -222,10 +222,10 @@ class: clientes-table-slide
 
 #### No caso de clientes, cada pedido tem 1 cliente. Então podemos resolver trazendo os dados de clientes de cada pedido, junto com os N pedidos
 
-| pedido.id | pedido.data_criacao | <span style="color:green">cliente.id</span> | <span style="color:green">cliente.nome</span> | <span style="color:green">cliente.sobrenome</span> |
+| pedido.id | pedido.data_criacao | cliente.id | cliente.nome | cliente.sobrenome |
 | --------- | ------------------- | ---------- | ------------ | ----------------- |
-| 9562      | 2025-01-15 10:30    | <span style="color:green">42</span>         | <span style="color:green">Maria</span>        | <span style="color:green">Silva</span>             |
-| 8849      | 2025-01-14 16:45    | <span style="color:green">17</span>         | <span style="color:green">João</span>         | <span style="color:green">Santos</span>            |
+| 9562      | 2025-01-15 10:30    | 42         | Maria        | Silva             |
+| 8849      | 2025-01-14 16:45    | 17         | João         | Santos            |
 
 
 ---
