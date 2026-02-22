@@ -20,6 +20,15 @@
   height: auto !important;
 }
 
+.slidev-layout.estrutura-slide .mermaid {
+  margin-top: 1.25rem !important;
+}
+
+.slidev-layout.estrutura-slide .mermaid svg {
+  min-height: 360px !important;
+  max-height: 460px !important;
+}
+
 /* Darker table borders */
 .slidev-layout table {
   border-collapse: collapse !important;

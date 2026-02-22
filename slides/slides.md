@@ -78,53 +78,60 @@ backgroundSize: contain
 ---
 
 ---
+class: estrutura-slide
+---
 
 # Estrutura do nosso sistema
 
+<div class="mx-auto w-[82%] mt-16">
+
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"background": "transparent", "fontSize": "24px", "lineColor": "#8be9fd", "primaryColor": "#282a36", "primaryBorderColor": "#bd93f9", "primaryTextColor": "#f8f8f2"}}}%%
 flowchart LR
   cliente[Cliente]
   pedido[Pedido]
-  itens[Itens do pedido]
+  item[ItemPedido]
   produto[Produto]
 
   cliente -->|faz| pedido
-  pedido -->|tem| itens
-  produto -->|aparece em| itens
+  pedido -->|contém| item
+  produto -->|aparece em| item
+
+  classDef entidade fill:#282a36,stroke:#bd93f9,stroke-width:2px,color:#f8f8f2;
+  class cliente,pedido,item,produto entidade;
 ```
+
+</div>
 
 ---
 
 # Como funciona Django + DRF
 
-### O fluxo: requisição HTTP → banco → JSON
+#### A `urls.py` roteia para a view
 
-```mermaid
-flowchart LR
-  browser[Browser pede dados]
-  rotas[Rota GET /pedidos<br/>urls.py]
-  view[Busca no banco<br/>views.py]
-  serializer[Formata JSON<br/>serializers.py]
-
-  browser --> rotas --> view --> serializer
-  serializer -. Resposta JSON .-> browser
+```python
+# urls.py
+urlpatterns = [
+  path("pedidos/", PedidoListAPIView.as_view()),
+]
 ```
+<v-click>
 
----
+#### A view define a consulta ao banco (queryset){.my-8}
 
-# Os 2 componentes essenciais
-
-#### A view define a consulta ao banco (queryset)
-
-```python {|3|4|0}
+```python {|3|4}
 # views.py - Busca dados (lazy)
 class PedidoListAPIView(ListAPIView):
     queryset = Pedido.objects.order_by("-data_criacao")
     serializer_class = ReportSerializer
 ```
-<v-click>
+</v-click>
 
-O serializer executa a queryset e formata a resposta como JSON
+---
+
+# Response sai: Serializer → JSON
+
+#### O serializer executa a queryset e formata a resposta como JSON{.my-8}
 
 ```python
 # serializers.py - Formata JSON
@@ -134,7 +141,6 @@ class ReportSerializer(serializers.ModelSerializer):
     model = Pedido
     fields = ["id", "num_pedido", "cliente_nome", "status"]
 ```
-</v-click>
 
 
 ---
