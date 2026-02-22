@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "silk",
+    "django_extensions",
     "api",
 ]
 

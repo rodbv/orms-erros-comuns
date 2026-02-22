@@ -49,7 +49,8 @@ select = [
 ]
 ignore = [
     "E203", # whitespace before ':' (compat with formatter)
+    "RUF012", # mutable default in model/serializer (desirable for Django)
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"api/migrations/*.py" = ["E501", "RUF012"]
+"api/migrations/*.py" = ["E501"]

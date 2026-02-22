@@ -270,3 +270,115 @@ No caso de clientes, cada pedido tem 1 cliente. Então podemos resolver trazendo
 # Fazendo um JOIN
 
 No Django isso se resolve com um `select_related`
+
+````md magic-move
+```python{|6}
+class PedidoListAPIView(generics.ListAPIView):
+  serializer_class = PedidoListSerializer
+  ...
+
+  def get_queryset(self):
+    queryset = Pedido.objects.order_by("-data_criacao")
+```
+```python{6-8}
+class PedidoListAPIView(generics.ListAPIView):
+  serializer_class = PedidoListSerializer
+  ...
+
+  def get_queryset(self):
+    queryset = Pedido.objects
+      .select_related("cliente")
+      .order_by("-data_criacao")
+```
+````
+
+---
+layout: image
+image: /image-9.png
+backgroundSize: contain
+---
+
+
+---
+layout: image
+image: /image-10.png
+backgroundSize: contain
+---
+
+---
+layout: image
+image: /image-11.png
+backgroundSize: contain
+---
+
+---
+
+# Vamos resolver o N+1 para itens_pedido
+
+```sql
+SELECT
+  SUM(
+    api_itempedido.valor_unitario * api_itempedido.quantidade
+  ) AS total
+FROM
+  api_itempedido
+WHERE
+  api_itempedido.pedido_id = 6605;
+```
+
+---
+
+# Cada pedido pode ter 1 ou mais itens
+
+Para os itens de cada pedido, temos vários itens por pedido, não dá pra trazer na mesma linha
+
+<div class="tabelas-lado-a-lado">
+<div class="tabela-slide">
+
+<table>
+<thead><tr><th>id</th><th>data_criacao</th></tr></thead>
+<tbody>
+<tr class="linha-9562"><td>9562</td><td>2025-01-15 10:30</td></tr>
+<tr class="linha-7201"><td>7201</td><td>2025-01-14 16:45</td></tr>
+</tbody>
+</table>
+
+</div>
+<div class="tabela-slide">
+
+<table>
+<thead><tr><th>id</th><th>pedido_id</th><th>prod_id</th><th>qtd</th><th>valor</th></tr></thead>
+<tbody>
+<tr class="linha-9562"><td>101</td><td>9562</td><td>11</td><td>2</td><td>29.90</td></tr>
+<tr class="linha-9562"><td>102</td><td>9562</td><td>54</td><td>1</td><td>15.00</td></tr>
+<tr class="linha-9562"><td>103</td><td>9562</td><td>23</td><td>3</td><td>9.50</td></tr>
+<tr class="linha-7201"><td>201</td><td>7201</td><td>99</td><td>1</td><td>42.00</td></tr>
+<tr class="linha-7201"><td>202</td><td>7201</td><td>45</td><td>2</td><td>18.50</td></tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+---
+
+# prefetch_related
+
+````md magic-move
+```python
+class PedidoListAPIView(generics.ListAPIView):
+    def get_queryset(self):
+        queryset = Pedido.objects
+          .order_by("-data_criacao")
+          .select_related("cliente")
+```
+
+```python
+class PedidoListAPIView(generics.ListAPIView):
+    def get_queryset(self):
+        queryset = Pedido.objects
+          .order_by("-data_criacao")
+          .select_related("cliente")
+          .prefetch_related("")
+```
+````

@@ -41,3 +41,6 @@ app:
 
 reseed:
     uv run python manage.py seed --clear
+
+shell:
+    uv run python manage.py shell_plus --ipython
