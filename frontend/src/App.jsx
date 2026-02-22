@@ -119,9 +119,9 @@ function App() {
             <th>Pedido</th>
             <th>Cliente</th>
             <th>Status</th>
-            <th className="text-center">Itens</th>
+            <th className="text-center"># Itens</th>
+            <th className="text-center">Data Pedido</th>
             <th className="text-end">Valor Total</th>
-            <th>Data Criação</th>
           </tr>
         </thead>
         <tbody>
@@ -146,8 +146,8 @@ function App() {
                   </span>
                 </td>
                 <td className="text-center mono">{totalItens} {itemLabel}</td>
+                <td className="text-center mono">{formatDateTime(pedido.data_criacao)}</td>
                 <td className="text-end mono">{formatCurrency(pedido.valor_total)}</td>
-                <td className="mono">{formatDateTime(pedido.data_criacao)}</td>
               </tr>
             )
           })}
