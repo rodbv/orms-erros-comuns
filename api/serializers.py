@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import ItemPedido, Pedido
 
 
-class ItemPedidoPreviewSerializer(serializers.ModelSerializer):
+class ItemPedidoReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemPedido
         fields = [
@@ -14,11 +14,11 @@ class ItemPedidoPreviewSerializer(serializers.ModelSerializer):
         ]
 
 
-class PedidoListSerializer(serializers.ModelSerializer):
+class ReportSerializer(serializers.ModelSerializer):
     cliente_nome = serializers.CharField(source="cliente.nome", read_only=True)
     cliente_sobrenome = serializers.CharField(source="cliente.sobrenome", read_only=True)
     status_display = serializers.CharField(source="get_status_display", read_only=True)
-    itens = ItemPedidoPreviewSerializer(many=True, read_only=True)
+    itens = ItemPedidoReportSerializer(many=True, read_only=True)
 
     class Meta:
         model = Pedido

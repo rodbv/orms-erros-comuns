@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 from .metrics import measure_time_and_memory
 from .models import Pedido
-from .serializers import PedidoListSerializer
+from .serializers import ReportSerializer
 
 
 class HelloView(APIView):
@@ -13,7 +13,7 @@ class HelloView(APIView):
 
 
 class PedidoListAPIView(generics.ListAPIView):
-    serializer_class = PedidoListSerializer
+    serializer_class = ReportSerializer
     pagination_class = None
     default_limit = 25
 
@@ -22,7 +22,11 @@ class PedidoListAPIView(generics.ListAPIView):
         return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
-        queryset = Pedido.objects.order_by("-data_criacao").select_related("cliente")
+        queryset = (
+            Pedido.objects.order_by("-data_criacao")
+            .select_related("cliente")
+            .prefetch_related("itens")
+        )
 
         quantidade = self.request.query_params.get("q")
         if quantidade is None:
