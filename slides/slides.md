@@ -336,7 +336,7 @@ Para os itens de cada pedido, temos vários itens por pedido, não dá pra traze
 <div class="tabela-slide">
 
 <table>
-<thead><tr><th>pedido.id</th><th>pedido.data_criacao</th></tr></thead>
+<thead><tr><th>id</th><th>data_criacao</th></tr></thead>
 <tbody>
 <tr class="linha-9562"><td>9562</td><td>2025-01-15 10:30</td></tr>
 <tr class="linha-7201"><td>7201</td><td>2025-01-14 16:45</td></tr>
@@ -347,13 +347,13 @@ Para os itens de cada pedido, temos vários itens por pedido, não dá pra traze
 <div class="tabela-slide">
 
 <table>
-<thead><tr><th>itempedido.pedido_id</th><th>itempedido.id</th><th>quantidade</th><th>valor</th></tr></thead>
+<thead><tr><th>id</th><th>pedido_id</th><th>prod_id</th><th>qtd</th><th>valor</th></tr></thead>
 <tbody>
-<tr class="linha-9562"><td>9562</td><td>101</td><td>2</td><td>29.90</td></tr>
-<tr class="linha-9562"><td>9562</td><td>102</td><td>1</td><td>15.00</td></tr>
-<tr class="linha-9562"><td>9562</td><td>103</td><td>3</td><td>9.50</td></tr>
-<tr class="linha-7201"><td>7201</td><td>201</td><td>1</td><td>42.00</td></tr>
-<tr class="linha-7201"><td>7201</td><td>202</td><td>2</td><td>18.50</td></tr>
+<tr class="linha-9562"><td>101</td><td>9562</td><td>11</td><td>2</td><td>29.90</td></tr>
+<tr class="linha-9562"><td>102</td><td>9562</td><td>54</td><td>1</td><td>15.00</td></tr>
+<tr class="linha-9562"><td>103</td><td>9562</td><td>23</td><td>3</td><td>9.50</td></tr>
+<tr class="linha-7201"><td>201</td><td>7201</td><td>99</td><td>1</td><td>42.00</td></tr>
+<tr class="linha-7201"><td>202</td><td>7201</td><td>45</td><td>2</td><td>18.50</td></tr>
 </tbody>
 </table>
 
