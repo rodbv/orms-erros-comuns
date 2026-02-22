@@ -44,3 +44,5 @@ reseed:
 
 shell:
     uv run python manage.py shell_plus --ipython
+vacuum:
+    uv run python manage.py shell -c "from django.db import connection; connection.cursor().execute('VACUUM')"

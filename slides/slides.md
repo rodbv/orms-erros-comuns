@@ -199,7 +199,7 @@ backgroundSize: contain
 ---
 ---
 layout: image
-image: /image-8.png
+image: /014_query-cliente.png
 backgroundSize: contain
 ---
 
