@@ -384,3 +384,116 @@ layout: image
 image: /026_memoria.png
 backgroundSize: contain
 ---
+
+---
+layout: image
+image: /028_query-with-all-cols.png
+backgroundSize: contain
+---
+
+---
+
+# Como buscar apenas os valores como vamos usar no serializer?
+
+````md magic-move
+
+```python
+def get_queryset(self):
+    queryset = (
+        Pedido.objects.order_by("-data_criacao")
+        .select_related("cliente")
+        .prefetch_related(Prefetch("itens")
+    )
+```
+```python{|5-}
+def get_queryset(self):
+    queryset = (
+        Pedido.objects.order_by("-data_criacao")
+        .select_related("cliente")
+        .prefetch_related(Prefetch("itens", queryset=itens_qs))
+        .only(
+            "id",
+            "num_pedido",
+            "status",
+            #...
+        )
+    )
+```
+````
+
+---
+layout: image
+image: /030_less_memory.png
+backgroundSize: contain
+---
+
+---
+layout: image
+image: /031_todo-dia.png
+backgroundSize: contain
+---
+
+---
+
+# Garantindo que n+1 não volta com testes
+
+<div class="mt-8 mx-auto max-w-4xl text-left">
+
+
+```python
+def test_pedidos_list_endpoint_sem_n_mais_1(django_assert_num_queries):
+    self.cria_pedidos_com_itens(10)
+
+    with django_assert_num_queries(2):
+        response = self.client.get("/api/pedidos/")
+
+    assert response.status_code == HTTPStatus.OK
+```
+
+</div>
+
+---
+
+# Garantindo que apenas as colunas esperadas são serializadas
+
+```python
+@pytest.mark.django_db
+def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
+    self.cria_pedidos_com_itens(10)
+
+    response = self.client.get("/api/pedidos/")
+
+    expected_pedido_fields = {"id", "num_pedido", ... }
+    expected_item_fields = {"id", "quantidade",...}
+
+    for pedido_payload in data["results"]:
+        assert set(pedido_payload.keys()) == expected_pedido_fields
+
+        for item_payload in pedido_payload["itens"]:
+            assert set(item_payload.keys()) == expected_item_fields
+
+```
+
+---
+
+# Mas e se eu uso Fast API?
+
+<Transform :scale="1.18" origin="top left">
+  <ul class="mt-8 font-semibold text-left pl-10 leading-tight">
+    <li>N+1, memory leaks, e coluna não-serializada são <span style="color:red">problemas universais</span> de qualquer ORM</li>
+    <li>Não importa se usar FastAPI, Flask, ou outro framework</li>
+    <li>Quem usa padrões de repositório também!</li>
+  </ul>
+</Transform>
+
+<div class="mt-8 mx-auto max-w-4xl text-left">
+
+| Django ORM | SQLAlchemy |
+| --- | --- |
+| `.select_related()` | `.joinedload()` |
+| `.prefetch_related()` | `.selectinload()` ou `.contains_eager()` |
+| `.only()` | `query(Model.id, Model.nome, ...)` ou `defer()` |
+
+</div>
+
+---

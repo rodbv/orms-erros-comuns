@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -5,6 +6,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-dev-key"
 DEBUG = True
 ALLOWED_HOSTS: list[str] = []
+
+TESTING = any("pytest" in arg for arg in sys.argv)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -14,10 +17,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "silk",
     "django_extensions",
     "api",
 ]
+
+if not TESTING:
+    INSTALLED_APPS.insert(7, "silk")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -27,8 +32,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "silk.middleware.SilkyMiddleware",
 ]
+
+if not TESTING:
+    MIDDLEWARE.append("silk.middleware.SilkyMiddleware")
 
 ROOT_URLCONF = "backend.urls"
 
