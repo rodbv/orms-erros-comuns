@@ -8,6 +8,8 @@ dependencies = [
     "django",
     "django-silk>=5.4.3",
     "djangorestframework",
+    "pandas",
+    "numpy",
 ]
 
 [dependency-groups]
