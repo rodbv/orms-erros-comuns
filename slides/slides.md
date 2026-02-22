@@ -10,9 +10,6 @@ transition: slide-left
 mdc: true
 lineNumbers: true
 highlighter: shiki
-shikiTheme:
-  light: github-light
-  dark: github-light
 ---
 
 # ORMs - Evitando os erros mais comuns
@@ -23,7 +20,9 @@ Como evitar armadilhas ao usar ORMs com Python
 
 # O que são ORMs?
 
-### ORM = Object-Relational Mapper: mapeia objetos Python ↔ tabelas/linhas no banco
+## ORM = Object-Relational Mapper{.my-8}
+
+### Mapeia objetos Python ↔ tabelas/linhas no banco{.my-8}
 
 
 ```python

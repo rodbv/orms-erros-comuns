@@ -3,6 +3,43 @@
   font-size: 1em !important;
 }
 
+/* Override Dracula selector: #app #slide-cont .slidev-code.shiki */
+#app #slide-container .slidev-code.shiki,
+#app #slide-cont .slidev-code.shiki,
+#app [id^='slide-cont'] .slidev-code.shiki {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/* Override theme-level code variables (Dracula) */
+.slidev-layout {
+  --slidev-code-background: #ffffff !important;
+  --prism-background: #ffffff !important;
+  --cm-background: #ffffff !important;
+}
+
+/* Match Slidev wrappers/pseudo-elements used with line numbers */
+.slidev-layout .slidev-code-wrapper,
+.slidev-layout .slidev-code-line-numbers,
+.slidev-layout .slidev-code-wrapper::before,
+.slidev-layout .slidev-code-wrapper::after,
+.slidev-layout .slidev-code-line-numbers::before,
+.slidev-layout .slidev-code-line-numbers::after {
+  --slidev-code-background: #ffffff !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Global vertical spacing for section headings (equivalent to my-8) */
+.slidev-layout h2,
+.slidev-layout h3,
+.slidev-layout h4 {
+  margin-top: 2rem !important;
+  margin-bottom: 2rem !important;
+}
+
 /* Full opacity for images in content */
 .slidev-layout p img {
   opacity: 1 !important;
