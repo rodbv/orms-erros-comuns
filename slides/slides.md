@@ -114,57 +114,49 @@ classDiagram
 
 ---
 
-# Como o Django usa ORMs
+# Como funciona Django + DRF
 
-### Endpoint (DRF): define a queryset lazy
+### O fluxo: requisição HTTP → banco → JSON
 
-**GET /api/pedidos/**
-
-Associado à URL em `urls.py`:
-
-```python
-# api/urls.py
-urlpatterns = [
-    path("pedidos/", PedidoListAPIView.as_view()),
-]
+```
+GET /api/pedidos/  (Browser)
+    ↓
+urls.py (registra rota)
+    ↓
+view.py (busca dados no BD)
+    ↓
+serializer.py (formata em JSON)
+    ↓
+Response JSON
 ```
 
-A view define a queryset:
+---
+
+# Os 3 componentes essenciais
 
 ```python
-# api/views.py
+# urls.py - Define rota
+path("pedidos/", PedidoListAPIView.as_view())
+```
+
+```python {|3}
+# views.py - Busca dados (lazy)
 class PedidoListAPIView(ListAPIView):
     queryset = Pedido.objects.order_by("-data_criacao")
     serializer_class = PedidoListSerializer
 ```
-
-
----
-
-# Como o Django usa ORMs
-
-### Serializer: transforma os dados em JSON
-
 ```python
+# serializers.py - Formata JSON
 class PedidoListSerializer(serializers.ModelSerializer):
-  cliente_nome = serializers.CharField(source="cliente.nome")
-  cliente_sobrenome = serializers.CharField(source="cliente.sobrenome")
-  ...
-
-  class Meta:
-      model = Pedido
-      fields: ClassVar = [
-          "id",
-          "num_pedido",
-          ...
-      ]
+    cliente_nome = serializers.CharField(source="cliente.nome")
+    class Meta:
+        model = Pedido
+        fields = ["id", "num_pedido", "cliente_nome", "status"]
 ```
 
 ---
 
-# Como o Django usa ORMs
-
-### O resultado: JSON retornado pela API
+# Resultado: JSON estruturado
 
 ```json
 {
@@ -172,18 +164,17 @@ class PedidoListSerializer(serializers.ModelSerializer):
     {
       "id": 1,
       "num_pedido": "PED-001",
-      "cliente_nome": "João",
-      "cliente_sobrenome": "Silva",
+      "cliente_nome": "João Silva",
       "status": "entregue"
     },
     {
       "id": 2,
       "num_pedido": "PED-002",
-      "cliente_nome": "Maria",
-      "cliente_sobrenome": "Santos",
+      "cliente_nome": "Maria Santos",
       "status": "aberto"
     }
   ]
 }
+```
 ```
 ```
