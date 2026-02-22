@@ -22,7 +22,7 @@ class PedidoListAPIView(generics.ListAPIView):
         return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
-        queryset = Pedido.objects.order_by("-data_criacao")
+        queryset = Pedido.objects.order_by("-data_criacao").select_related("cliente")
 
         quantidade = self.request.query_params.get("q")
         if quantidade is None:
