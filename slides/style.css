@@ -19,3 +19,14 @@
   width: 100% !important;
   height: auto !important;
 }
+
+/* Darker table borders */
+.slidev-layout table {
+  border-collapse: collapse !important;
+}
+
+.slidev-layout table,
+.slidev-layout th,
+.slidev-layout td {
+  border: 1px solid #4b5563 !important;
+}

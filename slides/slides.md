@@ -1,5 +1,6 @@
 ---
 theme: default
+css: ./style.css
 title: ORMs - Erros Comuns
 info: Como evitar armadilhas ao usar ORMs com FastAPI
 class: text-center
@@ -69,9 +70,31 @@ ORDER BY "data_criacao" DESC
 </v-click>
 
 ---
+
+# Por que ORMs são úteis?
+
+```python
+@transaction.atomic
+def criar_pedido(cliente, itens):
+  pedido = Pedido.objects.create(cliente=cliente, status="aberto")
+
+  for item in itens:
+    produto = Produto.objects
+      .select_for_update()
+      .get(id=item["produto_id"])
+
+    ItemPedido.objects.create(
+      pedido=pedido, produto=produto, quantidade=item["quantidade"],
+    )
+
+    produto.update(num_estoque=F("num_estoque") - item["quantidade"])
+```
+
+---
 layout: image
 image: /image-1.png
 backgroundSize: contain
+transition: fade
 ---
 
 ---
@@ -138,13 +161,18 @@ Response JSON
 # urls.py - Define rota
 path("pedidos/", PedidoListAPIView.as_view())
 ```
+<v-click>
 
-```python {|3}
+```python {|3|4}
 # views.py - Busca dados (lazy)
 class PedidoListAPIView(ListAPIView):
     queryset = Pedido.objects.order_by("-data_criacao")
     serializer_class = PedidoListSerializer
 ```
+</v-click>
+
+<v-click>
+
 ```python
 # serializers.py - Formata JSON
 class PedidoListSerializer(serializers.ModelSerializer):
@@ -153,6 +181,8 @@ class PedidoListSerializer(serializers.ModelSerializer):
         model = Pedido
         fields = ["id", "num_pedido", "cliente_nome", "status"]
 ```
+</v-click>
+
 
 ---
 
@@ -163,18 +193,80 @@ class PedidoListSerializer(serializers.ModelSerializer):
   "results": [
     {
       "id": 1,
-      "num_pedido": "PED-001",
+      "num_pedido": "XYZ001A",
       "cliente_nome": "João Silva",
-      "status": "entregue"
+      "status": "entregue",
+      ...
     },
     {
       "id": 2,
-      "num_pedido": "PED-002",
-      "cliente_nome": "Maria Santos",
-      "status": "aberto"
+      "num_pedido": "XYZ002B",
+      ...
     }
-  ]
+  ],
 }
 ```
-```
-```
+
+---
+layout: image
+image: /image-3.png
+backgroundSize: contain
+transition: fade
+---
+
+---
+layout: image
+image: /image-4.png
+backgroundSize: contain
+transition: fade
+---
+
+---
+layout: image
+image: /image-5.png
+backgroundSize: contain
+transition: fade
+---
+
+---
+layout: image
+image: /image-6.png
+backgroundSize: contain
+transition: fade
+---
+
+---
+layout: image
+image: /image-7.png
+backgroundSize: contain
+---
+---
+layout: image
+image: /image-8.png
+backgroundSize: contain
+---
+
+---
+
+# O problema N+1:
+
+- É feita 1 consulta para pegar N pedidos
+- E depois uma consulta extra para dados adicionais (N consultas)
+
+---
+
+# Vamos resolver o N+1 para clientes
+
+No caso de clientes, cada pedido tem 1 cliente. Então podemos resolver trazendo os dados de clientes de cada pedido, junto com os N pedidos
+
+| pedido.id | pedido.data_criacao | cliente.id | cliente.nome | cliente.sobrenome |
+| --------- | ------------------- | ---------- | ------------ | ----------------- |
+| 9562      | 2025-01-15 10:30    | 42         | Maria        | Silva             |
+| 8849      | 2025-01-14 16:45    | 17         | João         | Santos            |
+
+
+---
+
+# Fazendo um JOIN
+
+No Django isso se resolve com um `select_related`
