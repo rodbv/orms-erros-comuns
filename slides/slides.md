@@ -1,5 +1,5 @@
 ---
-theme: default
+theme: dracula
 css: ./style.css
 title: ORMs - Erros Comuns
 info: Como evitar armadilhas ao usar ORMs com FastAPI
@@ -10,11 +10,9 @@ transition: slide-left
 mdc: true
 lineNumbers: true
 highlighter: shiki
-themeConfig:
-  primary: '#42b883'
 shikiTheme:
   light: github-light
-  dark: github-dark
+  dark: github-light
 ---
 
 # ORMs - Evitando os erros mais comuns
@@ -209,8 +207,8 @@ backgroundSize: contain
 
 <Transform :scale="1.18" origin="top left">
   <ul class="mt-8 font-semibold text-left pl-10 leading-tight">
-    <li>É feita <span style="color:red">uma</span> consulta para pegar todos pedidos</li>
-    <li>E depois <span style="color:red">N consultas extra</span> para dados adicionais de cada pedido</li>
+    <li>É feita <span style="color:#ff79c6">uma</span> consulta para pegar todos pedidos</li>
+    <li>E depois <span style="color:#ff79c6">N consultas extra</span> para dados adicionais de cada pedido</li>
   </ul>
 </Transform>
 
@@ -347,8 +345,11 @@ backgroundSize: contain
 
 # Tava tudo bem até uma featura nova aparecer
 
+<div class="speech-bubble">
 
-#### "Vamos por um campo vetorizado no modelo pra busca semântica, mas desencana que não muda nada nos reports"
+Vamos por um campo vetorizado no modelo pra busca semântica, mas desencana que não muda nada nos reports, vai dar bom!
+<div class="text-sm opacity-70 text-right mt-2">— Um colega, sexta 17:45</div>
+</div>
 
 <div class="mt-8 mx-auto max-w-4xl text-left">
 
@@ -480,7 +481,7 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 
 <Transform :scale="1.18" origin="top left">
   <ul class="mt-8 font-semibold text-left pl-10 leading-tight">
-    <li>N+1, memory leaks, e coluna não-serializada são <span style="color:red">problemas universais</span> de qualquer ORM</li>
+    <li>N+1, memory leaks, e coluna não-serializada são <span style="color:#ff79c6">problemas universais</span> de qualquer ORM</li>
     <li>Não importa se usar FastAPI, Flask, ou outro framework</li>
     <li>Quem usa padrões de repositório também!</li>
   </ul>
@@ -498,19 +499,24 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 
 ---
 
-# Em resumo
+# Então lembrem-se amiguinhes! 🚀
+
+<div class="text-lg mt-16">
 
 - N+1 queries são o erro mais comum — use `.select_related()` e `.prefetch_related()`
-- Colunas desnecessárias consomem memória — busque só que você quer com `.only()`
 - Testes de regressão são fundamentais — `django_assert_num_queries()` previne surpresas
+- Colunas desnecessárias consomem memória — busque só que você quer com `.only()`
 - Estes problemas existem em qualquer ORM — FastAPI, Flask, SQLAlchemy, etc
 - Código gerado por IA frequentemente tem esses erros — entender esses conceitos é crítico para revisar e corrigir
+
+</div>
 
 ---
 
 # Obrigado!
 
-rodrigo.vieira@gmail.com
+- rodrigo.vieira@gmail.com
+- https://linkedin.com/in/rodrigobvieira
 
 ---
 
@@ -536,3 +542,8 @@ resultado = pedidos.merge(
 ```
 
 ---
+
+# Agora tchau mesmo
+
+- rodrigo.vieira@gmail.com
+- https://linkedin.com/in/rodrigobvieira
