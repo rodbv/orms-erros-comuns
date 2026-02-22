@@ -3,7 +3,6 @@ import string
 from decimal import Decimal
 
 from django.db import models
-from django.db.models import DecimalField, ExpressionWrapper, F, Sum
 
 
 class BaseModel(models.Model):
@@ -61,18 +60,7 @@ class Pedido(BaseModel):
     numero_pedido = models.CharField(max_length=30, unique=True)
     data_faturamento = models.DateTimeField(null=True, blank=True)
     observacoes = models.TextField(blank=True)
-
-    @property
-    def valor_total(self) -> Decimal:
-        total = self.itens.aggregate(
-            total=Sum(
-                ExpressionWrapper(
-                    F("valor_unitario") * F("quantidade"),
-                    output_field=DecimalField(max_digits=12, decimal_places=2),
-                )
-            )
-        )["total"]
-        return total or Decimal("0.00")
+    valor_total = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
 
     @staticmethod
     def gerar_num_pedido() -> str:
@@ -92,6 +80,7 @@ class Pedido(BaseModel):
                     break
             else:
                 raise ValueError("Não foi possível gerar um num_pedido único")
+
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
@@ -113,9 +102,14 @@ class ItemPedido(BaseModel):
     )
     quantidade = models.PositiveIntegerField()
     valor_unitario = models.DecimalField(max_digits=12, decimal_places=2)
+    valor_total = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
     observacoes = models.TextField(blank=True)
     numero_item = models.PositiveSmallIntegerField(default=1)
     cancelado = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        self.valor_total = self.valor_unitario * self.quantidade
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f"{self.pedido.num_pedido} - item {self.numero_item}"

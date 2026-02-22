@@ -41,23 +41,29 @@ class Produto(BaseModel):
 ```
 
 ---
+transition: fade
+---
 
 # O que são ORMs?
 
 
 #### Consultas feitas em código Python...
 
-
 ```python
-Produto.objects.filter(
-  preco__lte=100,
-  data_criacao__gte=date(2026, 1, 1)
-).order_by('-data_criacao')
+queryset = Produto.objects
+  .filter(preco__lte=100).order_by('-data_criacao')
+
+if apenas_este_ano:
+  queryset = queryset.filter(
+    data_criacao__gte=date(2026, 1, 1)
+  )
 ```
+---
 
-<v-click>
 
-...viram código SQL em tempo de execução, automaticamente
+# O que são ORMs?
+
+#### ...viram SQL em tempo de execução
 
 ```sql
 SELECT "id","nome","descricao","preco"
@@ -67,34 +73,10 @@ WHERE ("preco" <= 100
 ORDER BY "data_criacao" DESC
 ```
 
-</v-click>
-
----
-
-# Por que ORMs são úteis?
-
-```python
-@transaction.atomic
-def criar_pedido(cliente, itens):
-  pedido = Pedido.objects.create(cliente=cliente, status="aberto")
-
-  for item in itens:
-    produto = Produto.objects
-      .select_for_update()
-      .get(id=item["produto_id"])
-
-    ItemPedido.objects.create(
-      pedido=pedido, produto=produto, quantidade=item["quantidade"],
-    )
-
-    produto.update(num_estoque=F("num_estoque") - item["quantidade"])
-```
-
 ---
 layout: image
-image: /image-1.png
+image: /005_25-itens.png
 backgroundSize: contain
-transition: fade
 ---
 
 ---
@@ -102,37 +84,15 @@ transition: fade
 # Estrutura do nosso sistema
 
 ```mermaid
-classDiagram
-    direction LR
+flowchart LR
+  cliente[Cliente]
+  pedido[Pedido]
+  itens[Itens do pedido]
+  produto[Produto]
 
-    class Cliente {
-        id
-        nome
-        sobrenome
-    }
-
-    class Pedido {
-        id
-        cliente_id
-        status
-    }
-
-    class ItemPedido {
-        id
-        pedido_id
-        produto_id
-        quantidade
-    }
-
-    class Produto {
-        id
-        nome
-        preco
-    }
-
-    Cliente --> "faz" Pedido
-    Pedido --> "contem" ItemPedido
-    Produto --> "está em" ItemPedido
+  cliente -->|faz| pedido
+  pedido -->|tem| itens
+  produto -->|aparece em| itens
 ```
 
 ---
@@ -141,49 +101,46 @@ classDiagram
 
 ### O fluxo: requisição HTTP → banco → JSON
 
-```
-GET /api/pedidos/  (Browser)
-    ↓
-urls.py (registra rota)
-    ↓
-view.py (busca dados no BD)
-    ↓
-serializer.py (formata em JSON)
-    ↓
-Response JSON
+```mermaid
+flowchart LR
+  browser[Browser pede dados]
+  rotas[Rota GET /pedidos<br/>urls.py]
+  view[Busca no banco<br/>views.py]
+  serializer[Formata JSON<br/>serializers.py]
+
+  browser --> rotas --> view --> serializer
+  serializer -. Resposta JSON .-> browser
 ```
 
 ---
 
-# Os 3 componentes essenciais
+# Os 2 componentes essenciais
 
-```python
-# urls.py - Define rota
-path("pedidos/", PedidoListAPIView.as_view())
-```
-<v-click>
+#### A view define a consulta ao banco (queryset)
 
-```python {|3|4}
+```python {|3|4|0}
 # views.py - Busca dados (lazy)
 class PedidoListAPIView(ListAPIView):
     queryset = Pedido.objects.order_by("-data_criacao")
     serializer_class = PedidoListSerializer
 ```
-</v-click>
-
 <v-click>
+
+O serializer executa a queryset e formata a resposta como JSON
 
 ```python
 # serializers.py - Formata JSON
 class PedidoListSerializer(serializers.ModelSerializer):
-    cliente_nome = serializers.CharField(source="cliente.nome")
-    class Meta:
-        model = Pedido
-        fields = ["id", "num_pedido", "cliente_nome", "status"]
+  cliente_nome = serializers.CharField(source="cliente.nome")
+  class Meta:
+    model = Pedido
+    fields = ["id", "num_pedido", "cliente_nome", "status"]
 ```
 </v-click>
 
 
+---
+hide: true
 ---
 
 # Resultado: JSON estruturado
@@ -209,35 +166,35 @@ class PedidoListSerializer(serializers.ModelSerializer):
 
 ---
 layout: image
-image: /image-3.png
+image: /005_25-itens.png
 backgroundSize: contain
 transition: fade
 ---
 
 ---
 layout: image
-image: /image-4.png
+image: /009_carregando.png
 backgroundSize: contain
 transition: fade
 ---
 
 ---
 layout: image
-image: /image-5.png
+image: /010_2000-itens.png
 backgroundSize: contain
 transition: fade
 ---
 
 ---
 layout: image
-image: /image-6.png
+image: /012_silk_4003.png
 backgroundSize: contain
 transition: fade
 ---
 
 ---
 layout: image
-image: /image-7.png
+image: /013_silk-pairs.png
 backgroundSize: contain
 ---
 ---
@@ -250,26 +207,34 @@ backgroundSize: contain
 
 # O problema N+1:
 
-- É feita 1 consulta para pegar N pedidos
-- E depois uma consulta extra para dados adicionais (N consultas)
+<Transform :scale="1.18" origin="top left">
+  <ul class="mt-8 font-semibold text-left pl-10 leading-tight">
+    <li>É feita <span style="color:red">uma</span> consulta para pegar todos pedidos</li>
+    <li>E depois <span style="color:red">N consultas extra</span> para dados adicionais de cada pedido</li>
+  </ul>
+</Transform>
 
+---
+class: clientes-table-slide
 ---
 
 # Vamos resolver o N+1 para clientes
 
-No caso de clientes, cada pedido tem 1 cliente. Então podemos resolver trazendo os dados de clientes de cada pedido, junto com os N pedidos
+#### No caso de clientes, cada pedido tem 1 cliente. Então podemos resolver trazendo os dados de clientes de cada pedido, junto com os N pedidos
 
-| pedido.id | pedido.data_criacao | cliente.id | cliente.nome | cliente.sobrenome |
+| pedido.id | pedido.data_criacao | <span style="color:green">cliente.id</span> | <span style="color:green">cliente.nome</span> | <span style="color:green">cliente.sobrenome</span> |
 | --------- | ------------------- | ---------- | ------------ | ----------------- |
-| 9562      | 2025-01-15 10:30    | 42         | Maria        | Silva             |
-| 8849      | 2025-01-14 16:45    | 17         | João         | Santos            |
+| 9562      | 2025-01-15 10:30    | <span style="color:green">42</span>         | <span style="color:green">Maria</span>        | <span style="color:green">Silva</span>             |
+| 8849      | 2025-01-14 16:45    | <span style="color:green">17</span>         | <span style="color:green">João</span>         | <span style="color:green">Santos</span>            |
 
 
 ---
 
 # Fazendo um JOIN
 
-No Django isso se resolve com um `select_related`
+#### No Django isso se resolve com um `select_related`
+
+<div class="mt-8 mx-auto max-w-4xl text-left">
 
 ````md magic-move
 ```python{|6}
@@ -291,23 +256,17 @@ class PedidoListAPIView(generics.ListAPIView):
       .order_by("-data_criacao")
 ```
 ````
+  </div>
 
 ---
 layout: image
-image: /image-9.png
-backgroundSize: contain
----
-
-
----
-layout: image
-image: /image-10.png
+image: /018_relatorio_sem_cliente_n1.png
 backgroundSize: contain
 ---
 
 ---
 layout: image
-image: /image-11.png
+image: /019_2003-queries.png
 backgroundSize: contain
 ---
 
@@ -359,3 +318,26 @@ Para os itens de cada pedido, temos vários itens por pedido, não dá pra traze
 
 </div>
 </div>
+
+---
+
+# prefetch_related
+
+````md magic-move
+```python
+class PedidoListAPIView(generics.ListAPIView):
+    def get_queryset(self):
+        queryset = Pedido.objects
+          .order_by("-data_criacao")
+          .select_related("cliente")
+```
+
+```python
+class PedidoListAPIView(generics.ListAPIView):
+    def get_queryset(self):
+        queryset = Pedido.objects
+          .order_by("-data_criacao")
+          .select_related("cliente")
+          .prefetch_related("")
+```
+````

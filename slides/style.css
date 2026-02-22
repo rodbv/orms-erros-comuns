@@ -31,46 +31,6 @@
   border: 1px solid #4b5563 !important;
 }
 
-/* Side-by-side tables with highlighted rows */
-.slidev-layout .tabelas-lado-a-lado {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 12px;
-}
-
-.slidev-layout .tabela-slide {
-  flex: 1 1 0;
-  min-width: 0;
-}
-
-.slidev-layout .tabela-slide table {
-  width: 100%;
-  font-size: 0.82em;
-  table-layout: fixed;
-}
-
-.slidev-layout .tabela-slide th {
-  background: #f3f4f6;
-  color: #111827;
-  font-weight: 700;
-}
-
-.slidev-layout .tabela-slide td,
-.slidev-layout .tabela-slide th {
-  padding: 6px 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.slidev-layout tr.linha-9562 td {
-  background: #e0f2fe;
-  color: #0c4a6e;
-}
-
-.slidev-layout tr.linha-7201 td {
-  background: #ffedd5;
-  color: #9a3412;
+.slidev-layout.clientes-table-slide table {
+  margin-top: 1.5rem !important;
 }

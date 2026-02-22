@@ -119,40 +119,40 @@ function App() {
             <th>Pedido</th>
             <th>Cliente</th>
             <th>Status</th>
+            <th className="text-center"># Itens</th>
+            <th className="text-center">Data Pedido</th>
             <th className="text-end">Valor Total</th>
-            <th>Data Criação</th>
           </tr>
         </thead>
         <tbody>
           {!loading && pedidos.length === 0 && (
             <tr>
-              <td colSpan={5} className="text-center text-muted py-3">
+              <td colSpan={6} className="text-center text-muted py-3">
                 Nenhum pedido encontrado.
               </td>
             </tr>
           )}
 
-          {pedidos.map((pedido) => (
-            <tr key={pedido.id}>
-              <td className="mono">{pedido.num_pedido || pedido.numero_pedido}</td>
-              <td>{`${pedido.cliente_nome} ${pedido.cliente_sobrenome}`.trim()}</td>
-              <td>
-                <span className={`badge ${getStatusBadgeClass(pedido.status)}`}>
-                  {pedido.status_display}
-                </span>
-              </td>
-              <td className="text-end mono">{formatCurrency(pedido.valor_total)}</td>
-              <td className="mono">{formatDateTime(pedido.data_criacao)}</td>
-            </tr>
-          ))}
+          {pedidos.map((pedido) => {
+            const totalItens = pedido.itens?.reduce((sum, item) => sum + item.quantidade, 0) || 0
+            const itemLabel = totalItens === 1 ? 'item' : 'itens'
+            return (
+              <tr key={pedido.id}>
+                <td className="mono">{pedido.num_pedido || pedido.numero_pedido}</td>
+                <td>{`${pedido.cliente_nome} ${pedido.cliente_sobrenome}`.trim()}</td>
+                <td>
+                  <span className={`badge ${getStatusBadgeClass(pedido.status)}`}>
+                    {pedido.status_display}
+                  </span>
+                </td>
+                <td className="text-center mono">{totalItens} {itemLabel}</td>
+                <td className="text-center mono">{formatDateTime(pedido.data_criacao)}</td>
+                <td className="text-end mono">{formatCurrency(pedido.valor_total)}</td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
-
-      <div className="no-print d-flex gap-2">
-        <button className="btn btn-outline-secondary btn-sm mono" onClick={() => window.print()}>
-          Imprimir
-        </button>
-      </div>
     </div>
   )
 }
