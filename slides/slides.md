@@ -4,18 +4,19 @@ layout: cover
 css: ./style.css
 title: ORMs - Erros Comuns
 info: Como evitar armadilhas ao usar ORMs com FastAPI
-class: text-center
 drawings:
   persist: false
 transition: slide-left
 mdc: true
 lineNumbers: true
 highlighter: shiki
+background: '#002156'
+class: text-center
 ---
 
 # ORMs - Evitando os erros mais comuns
 
-Como evitar armadilhas ao usar ORMs com Python
+### Como evitar armadilhas ao usar ORMs com Python
 
 ---
 
@@ -222,7 +223,7 @@ backgroundSize: contain
 class: clientes-table-slide
 ---
 
-# Vamos resolver o N+1 para clientes
+# Bora resolver o N+1 de clientes
 
 #### No caso de clientes, cada pedido tem 1 cliente. Então podemos resolver trazendo os dados de clientes de cada pedido, junto com os N pedidos
 
@@ -276,7 +277,7 @@ backgroundSize: contain
 
 ---
 
-# Vamos resolver o N+1 para itens_pedido
+# N+1 em itens_pedido, na prática
 
 #### De onde ele vêm?
 
@@ -303,7 +304,7 @@ backgroundSize: contain
 
 # prefetch_related
 
-#### Para cada ID de pedido, vamos buscar todos os itens desses pedidos
+#### Para cada ID de pedido, a ideia aqui é buscar todos os itens desses pedidos
 
 <div class="mt-8 mx-auto max-w-4xl text-left">
 
@@ -353,7 +354,7 @@ backgroundSize: contain
 
 <div class="speech-bubble">
 
-Vamos por um campo vetorizado no modelo pra busca semântica, mas desencana que não muda nada nos reports, vai dar bom!
+Bora colocar um campo vetorizado no modelo pra busca semântica, mas desencana que não muda nada nos reports, vai dar bom!
 <div class="text-sm opacity-70 text-right mt-2">— Um colega, sexta 17:45</div>
 </div>
 
@@ -400,7 +401,7 @@ backgroundSize: contain
 
 ---
 
-# Como buscar apenas os valores como vamos usar no serializer?
+# Como buscar apenas os valores que o serializer realmente usa?
 
 ````md magic-move
 

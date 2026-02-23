@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 /* Brand palette */
 :root {
   --brand-blue-dark: #002156;
@@ -8,11 +10,25 @@
 }
 
 /* Global deck identity */
+html,
+body,
+#app,
+#slidev,
+.slidev {
+  background-color: var(--brand-blue-dark) !important;
+}
+
 .slidev-layout,
 #slide-container,
 #slide-content {
   background-color: var(--brand-blue-dark) !important;
   color: var(--brand-text) !important;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+.slidev-layout::before,
+.slidev-layout::after {
+  background: transparent !important;
 }
 
 /* Cover slide visual tuning */
@@ -42,7 +58,7 @@
 .slidev-layout h3,
 .slidev-layout h4,
 .slidev-layout h5 {
-  color: var(--brand-text-secondary) !important;
+  color: var(--brand-text) !important;
 }
 
 .slidev-layout p,
