@@ -1,5 +1,5 @@
 ---
-theme: dracula
+theme: seriph
 layout: cover
 css: ./style.css
 title: ORMs - Erros Comuns
@@ -86,7 +86,7 @@ class: estrutura-slide
 <div class="mx-auto w-[82%] mt-16">
 
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"background": "transparent", "fontSize": "24px", "lineColor": "#8be9fd", "primaryColor": "#282a36", "primaryBorderColor": "#bd93f9", "primaryTextColor": "#f8f8f2"}}}%%
+%%{init: {"theme": "base", "themeVariables": {"background": "transparent", "fontSize": "24px", "lineColor": "#feb811", "primaryColor": "#033388", "primaryBorderColor": "#feb811", "primaryTextColor": "#f8fbff", "secondaryColor": "#033388", "secondaryTextColor": "#f8fbff", "tertiaryColor": "#033388", "tertiaryBorderColor": "#feb811", "tertiaryTextColor": "#f8fbff", "edgeLabelBackground": "#033388"}}}%%
 flowchart LR
   cliente[Cliente]
   pedido[Pedido]
@@ -97,7 +97,7 @@ flowchart LR
   pedido -->|contém| item
   produto -->|aparece em| item
 
-  classDef entidade fill:#282a36,stroke:#bd93f9,stroke-width:2px,color:#f8f8f2;
+  classDef entidade fill:#033388,stroke:#feb811,stroke-width:2px,color:#f8fbff;
   class cliente,pedido,item,produto entidade;
 ```
 
@@ -213,8 +213,8 @@ backgroundSize: contain
 
 <Transform :scale="1.18" origin="top left">
   <ul class="mt-8 font-semibold text-left pl-10 leading-tight">
-    <li>É feita <span style="color:#ff79c6">uma</span> consulta para pegar todos pedidos</li>
-    <li>E depois <span style="color:#ff79c6">N consultas extra</span> para dados adicionais de cada pedido</li>
+    <li>É feita <span style="color:#feb811">uma</span> consulta para pegar todos pedidos</li>
+    <li>E depois <span style="color:#feb811">N consultas extra</span> para dados adicionais de cada pedido</li>
   </ul>
 </Transform>
 
@@ -487,7 +487,7 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 
 <Transform :scale="1.18" origin="top left">
   <ul class="mt-8 font-semibold text-left pl-10 leading-tight">
-    <li>N+1, memory leaks, e coluna não-serializada são <span style="color:#ff79c6">problemas universais</span> de qualquer ORM</li>
+    <li>N+1, memory leaks, e coluna não-serializada são <span style="color:#feb811">problemas universais</span> de qualquer ORM</li>
     <li>Não importa se usar FastAPI, Flask, ou outro framework</li>
     <li>Quem usa padrões de repositório também!</li>
   </ul>
