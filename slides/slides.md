@@ -18,6 +18,9 @@ class: text-center
 
 ### Como evitar armadilhas ao usar ORMs com Python
 
+<img src="/logo.png" alt="Python Floripa" class="cover-logo" />
+<p class="cover-logo-caption">Python Floripa 93 - UniSENAI</p>
+
 ---
 
 # O que são ORMs?

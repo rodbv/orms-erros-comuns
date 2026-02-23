@@ -1,10 +1,10 @@
 <template>
+  <div v-if="$nav.currentLayout !== 'cover'" class="deck-overlay" aria-hidden="true">
+    <img src="/logo.png" alt="" class="deck-overlay__logo" />
+  </div>
+
   <div v-if="$nav.currentLayout !== 'cover'" class="deck-footer" aria-hidden="true">
-    <div class="deck-footer__meta">
-      <span>{{ $nav.currentPage }}</span>
-      <span class="deck-footer__sep">/</span>
-      <span>{{ $nav.total }}</span>
-    </div>
+    <div class="deck-footer__microcopy">Python Floripa #93</div>
 
     <div class="deck-footer__track">
       <div
@@ -16,6 +16,21 @@
 </template>
 
 <style scoped>
+.deck-overlay {
+  position: fixed;
+  right: 1rem;
+  bottom: 0.65rem;
+  pointer-events: none;
+  z-index: 21;
+}
+
+.deck-overlay__logo {
+  display: block;
+  width: 63px;
+  height: auto;
+  opacity: 0.95;
+}
+
 .deck-footer {
   position: fixed;
   left: 0;
@@ -25,22 +40,15 @@
   z-index: 20;
 }
 
-.deck-footer__meta {
+.deck-footer__microcopy {
   position: absolute;
-  right: 1rem;
+  left: 1rem;
   bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
   color: #f8fbff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  opacity: 0.9;
-}
-
-.deck-footer__sep {
-  color: #feb811;
-  opacity: 0.9;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0.8;
 }
 
 .deck-footer__track {
