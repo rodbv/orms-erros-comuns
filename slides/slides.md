@@ -119,7 +119,6 @@ urlpatterns = [
   path("pedidos/", PedidoListAPIView.as_view()),
 ]
 ```
-<v-click>
 
 #### A view define a consulta ao banco (queryset){.my-8}
 
@@ -129,7 +128,7 @@ class PedidoListAPIView(ListAPIView):
     queryset = Pedido.objects.order_by("-data_criacao")
     serializer_class = ReportSerializer
 ```
-</v-click>
+
 
 ---
 
