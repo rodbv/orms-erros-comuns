@@ -7,6 +7,7 @@ info: Como evitar armadilhas ao usar ORMs com FastAPI
 drawings:
   persist: false
 transition: slide-left
+colorSchema: auto
 mdc: true
 lineNumbers: true
 highlighter: shiki
@@ -352,7 +353,7 @@ backgroundSize: contain
 
 ---
 
-# Tava tudo bem até uma featura nova aparecer
+# #Sextou!
 
 <div class="speech-bubble">
 

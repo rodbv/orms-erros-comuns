@@ -1,19 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Schoolbell&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap');
 
 /* Brand palette */
 :root {
+  --brand-blue-dark: #0a2f7a;
+  --brand-blue-deeper: #06245f;
+  --brand-blue: #0b3e9c;
+  --brand-orange: #e87511;
+  --brand-text: #0f2d64;
+  --brand-text-secondary: #224279;
+  --brand-bg-solid: #ffffff;
+  --brand-bg-gradient: linear-gradient(
+    to top,
+    #edf1f7 0%,
+    #f6f8fc 26%,
+    #ffffff 58%,
+    #ffffff 100%
+  );
+  --brand-heading-1-2: var(--brand-blue-dark);
+  --brand-heading-3-4: var(--brand-orange);
+  --brand-table-border: color-mix(in srgb, var(--brand-blue-dark) 45%, #c7d2e5 55%);
+  --brand-table-th-bg: #edf2fa;
+  --brand-table-td-bg: #f8faff;
+  --brand-bubble-bg: rgba(255, 255, 255, 0.82);
+  --brand-bubble-border: rgba(232, 117, 17, 0.85);
+}
+
+html.dark {
   --brand-blue-dark: #002156;
   --brand-blue-deeper: #001338;
   --brand-blue: #033388;
   --brand-orange: #feb811;
   --brand-text: #f8fbff;
   --brand-text-secondary: color-mix(in srgb, var(--brand-text) 82%, var(--brand-blue) 18%);
+  --brand-bg-solid: var(--brand-blue-dark);
   --brand-bg-gradient: linear-gradient(
     to top,
     var(--brand-blue-deeper) 0%,
     color-mix(in srgb, var(--brand-blue-deeper) 72%, var(--brand-blue-dark) 28%) 38%,
     var(--brand-blue-dark) 100%
   );
+  --brand-heading-1-2: var(--brand-orange);
+  --brand-heading-3-4: var(--brand-text);
+  --brand-table-border: var(--brand-blue);
+  --brand-table-th-bg: #033388;
+  --brand-table-td-bg: #012a6b;
+  --brand-bubble-bg: rgba(3, 51, 136, 0.3);
+  --brand-bubble-border: rgba(254, 184, 17, 0.75);
 }
 
 /* Global deck identity */
@@ -22,12 +54,12 @@ body,
 #app,
 #slidev,
 .slidev {
-  background-color: var(--brand-blue-dark) !important;
+  background-color: var(--brand-bg-solid) !important;
   background-image: var(--brand-bg-gradient) !important;
 }
 
 .slidev-layout {
-  background-color: var(--brand-blue-dark) !important;
+  background-color: var(--brand-bg-solid) !important;
   background-image: var(--brand-bg-gradient);
   color: var(--brand-text) !important;
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
@@ -35,7 +67,7 @@ body,
 
 #slide-container,
 #slide-content {
-  background-color: var(--brand-blue-dark) !important;
+  background-color: var(--brand-bg-solid) !important;
   background-image: var(--brand-bg-gradient) !important;
 }
 
@@ -81,11 +113,22 @@ body,
 
 .slidev-layout h1,
 .slidev-layout h2 {
-  color: var(--brand-orange) !important;
+  color: var(--brand-heading-1-2) !important;
 }
 
 .slidev-layout h3,
 .slidev-layout h4,
+.slidev-layout h5 {
+  color: var(--brand-heading-3-4) !important;
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3,
+.slidev-layout h4 {
+  font-family: 'Manrope', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+}
+
 .slidev-layout h5 {
   color: var(--brand-text) !important;
 }
@@ -116,6 +159,11 @@ body,
 
 .slidev-layout blockquote {
   border-left: 4px solid var(--brand-orange);
+}
+
+.slidev-layout blockquote,
+.slidev-layout blockquote * {
+  font-family: 'Georgia', 'Times New Roman', serif !important;
 }
 
 /* Increase code block font size */
@@ -198,28 +246,28 @@ body,
 .slidev-layout table,
 .slidev-layout th,
 .slidev-layout td {
-  border: 1px solid var(--brand-blue) !important;
+  border: 1px solid var(--brand-table-border) !important;
 }
 
 .slidev-layout th {
-  background: #033388;
+  background: var(--brand-table-th-bg);
 }
 
 .slidev-layout td {
-  background: #012a6b;
+  background: var(--brand-table-td-bg);
 }
 
 .slidev-layout.clientes-table-slide table {
   margin-top: 1.5rem !important;
-  background: #012a6b;
+  background: var(--brand-table-td-bg);
 }
 
 .slidev-layout.clientes-table-slide th {
-  background: #033388;
+  background: var(--brand-table-th-bg);
 }
 
 .slidev-layout.clientes-table-slide td {
-  background: #012a6b;
+  background: var(--brand-table-td-bg);
 }
 
 .slidev-layout.clientes-table-slide table tr > :nth-child(n + 3) {
@@ -229,8 +277,8 @@ body,
 
 /* Speech bubble styling */
 .speech-bubble {
-  background: rgba(3, 51, 136, 0.3);
-  border: 2px solid rgba(254, 184, 17, 0.75);
+  background: var(--brand-bubble-bg);
+  border: 2px solid var(--brand-bubble-border);
   border-radius: 1.5em;
   padding: 1.5em 2em;
   position: relative;
@@ -240,7 +288,7 @@ body,
 
 .speech-bubble,
 .speech-bubble * {
-  font-family: 'Schoolbell', 'Comic Sans MS', 'Comic Neue', cursive !important;
+  font-family: 'Georgia', 'Times New Roman', serif !important;
 }
 
 .speech-bubble::after {
@@ -252,7 +300,7 @@ body,
   height: 0;
   border-left: 15px solid transparent;
   border-right: 0px solid transparent;
-  border-top: 15px solid rgba(3, 51, 136, 0.3);
+  border-top: 15px solid var(--brand-bubble-bg);
 }
 
 .speech-bubble blockquote {
