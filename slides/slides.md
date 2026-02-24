@@ -99,8 +99,8 @@ flowchart LR
   produto[Produto]
 
   cliente -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>faz</span>| pedido
-  pedido -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>contém</span>| item
-  produto -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>aparece em</span>| item
+  pedido -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>tem vários</span>| item
+  item -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>tem um</span>| produto
 
   classDef entidade fill:#033388,stroke:#feb811,stroke-width:2px,color:#f8fbff;
   class cliente,pedido,item,produto entidade;
@@ -112,7 +112,7 @@ flowchart LR
 
 # Como funciona Django + DRF
 
-#### A `urls.py` roteia para a view
+#### Request chega: `urls.py` roteia para a view
 
 ```python
 # urls.py

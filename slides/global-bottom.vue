@@ -47,6 +47,7 @@
   color: #f8fbff;
   font-size: 0.78rem;
   font-weight: 500;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   letter-spacing: 0.01em;
   opacity: 0.8;
 }
