@@ -489,10 +489,9 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 
 # Mas e se eu uso Fast API?
 
-<Transform :scale="1.18" origin="top left">
+<Transform origin="top left">
   <ul class="mt-8 font-semibold text-left pl-10 leading-tight">
     <li>N+1, memory leaks, e coluna não-serializada são <span style="color:#feb811">problemas universais</span> de qualquer ORM</li>
-    <li>Não importa se usar FastAPI, Flask, ou outro framework</li>
     <li>Quem usa padrões de repositório também!</li>
   </ul>
 </Transform>
@@ -532,6 +531,9 @@ layout: end
 - rodrigo.vieira@gmail.com
 - https://linkedin.com/in/rodrigobvieira
 
+<img src="/qrcode.png" alt="QR Code" style="width: 252px; max-width: 70%; margin: 1.5rem auto 0;" />
+<p style="color: #ffffff; font-size: 0.95rem; margin-top: 0.75rem;">github.com/rodbv/orms-erros-comuns</p>
+
 ---
 
 # Pós-crédito: E se eu uso Pandas?
@@ -563,3 +565,6 @@ layout: end
 
 - rodrigo.vieira@gmail.com
 - https://linkedin.com/in/rodrigobvieira
+
+<img src="/qrcode.png" alt="QR Code" style="width: 252px; max-width: 70%; margin: 1.5rem auto 0;" />
+<p style="color: #ffffff; font-size: 0.95rem; margin-top: 0.75rem;">github.com/rodbv/orms-erros-comuns</p>

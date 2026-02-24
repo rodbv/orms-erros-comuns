@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Schoolbell&display=swap');
 
 /* Brand palette */
 :root {
@@ -129,6 +129,10 @@ body,
 #app [id^='slide-cont'] .slidev-code.shiki {
   background: #ffffff !important;
   background-color: #ffffff !important;
+  box-shadow:
+    0 0 0 1px rgba(102, 166, 255, 0.5),
+    0 8px 18px 0 rgba(52, 120, 255, 0.3),
+    0 0 8px 0 rgba(90, 150, 255, 0.22) !important;
 }
 
 /* Override theme-level code variables (Dracula) */
@@ -239,6 +243,11 @@ body,
   max-width: 90%;
 }
 
+.speech-bubble,
+.speech-bubble * {
+  font-family: 'Schoolbell', 'Comic Sans MS', 'Comic Neue', cursive !important;
+}
+
 .speech-bubble::after {
   content: '';
   position: absolute;
@@ -253,11 +262,23 @@ body,
 
 .speech-bubble blockquote {
   margin: 0;
-  font-size: 1.15em;
+  font-size: inherit;
+  line-height: inherit;
   font-style: italic;
   color: inherit;
 }
 
 .speech-bubble blockquote p {
   margin: 0;
+}
+
+.speech-bubble p {
+  margin: 0;
+  font-size: 1.4em !important;
+  line-height: 1.35 !important;
+}
+
+.speech-bubble .text-sm {
+  font-size: 0.8rem !important;
+  line-height: 1.2 !important;
 }
