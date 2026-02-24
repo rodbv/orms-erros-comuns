@@ -97,9 +97,9 @@ flowchart LR
   item[ItemPedido]
   produto[Produto]
 
-  cliente -->|<span style='font-size:14px'>faz</span>| pedido
-  pedido -->|<span style='font-size:14px'>contém</span>| item
-  produto -->|<span style='font-size:14px'>aparece em</span>| item
+  cliente -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>faz</span>| pedido
+  pedido -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>contém</span>| item
+  produto -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>aparece em</span>| item
 
   classDef entidade fill:#033388,stroke:#feb811,stroke-width:2px,color:#f8fbff;
   class cliente,pedido,item,produto entidade;
