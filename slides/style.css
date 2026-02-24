@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap');
 
 /* Brand palette */
 :root {
@@ -168,6 +168,7 @@ body,
 
 /* Increase code block font size */
 .slidev-code {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
   font-size: 1em !important;
 }
 
@@ -185,6 +186,7 @@ body,
 
 /* Override theme-level code variables (Dracula) */
 .slidev-layout {
+  --slidev-code-font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
   --slidev-code-background: #ffffff !important;
   --prism-background: #ffffff !important;
   --cm-background: #ffffff !important;
@@ -291,16 +293,30 @@ body,
   font-family: 'Georgia', 'Times New Roman', serif !important;
 }
 
+.speech-bubble::before,
 .speech-bubble::after {
   content: '';
   position: absolute;
-  bottom: -12px;
-  left: 2.5em;
   width: 0;
   height: 0;
-  border-left: 15px solid transparent;
-  border-right: 0px solid transparent;
-  border-top: 15px solid var(--brand-bubble-bg);
+}
+
+.speech-bubble::before {
+  bottom: -18px;
+  right: 2.35em;
+  border-left: 14px solid transparent;
+  border-right: 2px solid transparent;
+  border-top: 18px solid var(--brand-bubble-border);
+}
+
+.speech-bubble::after {
+  bottom: -14px;
+  right: 2.5em;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 2px solid transparent;
+  border-top: 14px solid var(--brand-bubble-bg);
 }
 
 .speech-bubble blockquote {
