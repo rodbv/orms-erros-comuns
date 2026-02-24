@@ -90,16 +90,16 @@ class: estrutura-slide
 <div class="mx-auto w-[82%] mt-16">
 
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"background": "transparent", "fontSize": "24px", "lineColor": "#feb811", "primaryColor": "#033388", "primaryBorderColor": "#feb811", "primaryTextColor": "#f8fbff", "secondaryColor": "#033388", "secondaryTextColor": "#f8fbff", "tertiaryColor": "#033388", "tertiaryBorderColor": "#feb811", "tertiaryTextColor": "#f8fbff", "edgeLabelBackground": "#033388"}}}%%
+%%{init: {"theme": "base", "themeVariables": {"background": "transparent", "fontSize": "24px", "lineColor": "#feb811", "primaryColor": "#033388", "primaryBorderColor": "#feb811", "primaryTextColor": "#f8fbff", "secondaryColor": "#033388", "secondaryTextColor": "#f8fbff", "tertiaryColor": "#033388", "tertiaryBorderColor": "#feb811", "tertiaryTextColor": "#f8fbff", "edgeLabelBackground": "#002156"}}}%%
 flowchart LR
   cliente[Cliente]
   pedido[Pedido]
   item[ItemPedido]
   produto[Produto]
 
-  cliente -->|faz| pedido
-  pedido -->|contém| item
-  produto -->|aparece em| item
+  cliente -->|<span style='font-size:14px'>faz</span>| pedido
+  pedido -->|<span style='font-size:14px'>contém</span>| item
+  produto -->|<span style='font-size:14px'>aparece em</span>| item
 
   classDef entidade fill:#033388,stroke:#feb811,stroke-width:2px,color:#f8fbff;
   class cliente,pedido,item,produto entidade;

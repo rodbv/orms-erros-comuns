@@ -181,11 +181,6 @@ body,
   height: auto !important;
 }
 
-#ATAyX .edgeLabel p,
-.mermaid .edgeLabel p {
-  background: transparent !important;
-}
-
 .slidev-layout.estrutura-slide .mermaid {
   margin-top: 1.25rem !important;
 }
