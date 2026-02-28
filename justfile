@@ -1,5 +1,10 @@
-run:
-    uv run python manage.py runserver
+
+
+
+# Run Django with Debug Toolbar enabled and Silk disabled
+ddt:
+    DJANGO_SETTINGS_MODULE=backend.settings \
+    DDT_ENABLED=1 SILK_DISABLED=1 && just app
 
 test *args:
     uv run pytest {{args}}

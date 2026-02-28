@@ -1,3 +1,4 @@
+import os
 import sys
 from pathlib import Path
 
@@ -20,8 +21,13 @@ INSTALLED_APPS = [
     "api",
 ]
 
-if not TESTING:
+# Conditionally add Silk unless disabled
+if not TESTING and not os.environ.get("SILK_DISABLED"):
     INSTALLED_APPS.insert(7, "silk")
+
+# Conditionally add Django Debug Toolbar
+if os.environ.get("DDT_ENABLED"):
+    INSTALLED_APPS.append("debug_toolbar")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -33,8 +39,19 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-if not TESTING:
+# Conditionally add Silk middleware unless disabled
+if not TESTING and not os.environ.get("SILK_DISABLED"):
     MIDDLEWARE.append("silk.middleware.SilkyMiddleware")
+
+# Conditionally add Debug Toolbar middleware (should be near the top)
+if os.environ.get("DDT_ENABLED"):
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+    # Debug Toolbar config
+if os.environ.get("DDT_ENABLED"):
+    INTERNAL_IPS = [
+        "127.0.0.1",
+        "localhost",
+    ]
 
 ROOT_URLCONF = "backend.urls"
 

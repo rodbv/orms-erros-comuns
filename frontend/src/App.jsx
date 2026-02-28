@@ -96,7 +96,7 @@ function App() {
           </span>
           {!!elapsed && (
             <a
-              href="http://localhost:8000/silk/"
+              href="http://localhost:8000/admin/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-decoration-none"
