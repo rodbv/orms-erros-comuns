@@ -45,11 +45,13 @@ just reseed
 just run
 ```
 
-> **Nota:** O branch (`ddt`) possui suporte ao Django Debug Toolbar. Para rodar o projeto com o Debug Toolbar ativado, use o comando:
->
->     just ddt
->
-> O Debug Toolbar estará disponível em http://localhost:8000/admin/
+**Nota:** O branch (`ddt`) possui suporte ao Django Debug Toolbar. Para rodar o projeto com o Debug Toolbar ativado, use o comando:
+
+```
+just ddt
+```
+
+O Debug Toolbar estará disponível em http://localhost:8000/admin/
 
 **Endpoints**:
 
