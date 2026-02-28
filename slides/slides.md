@@ -83,32 +83,6 @@ backgroundSize: contain
 ---
 
 ---
-class: estrutura-slide
----
-
-# Estrutura do nosso sistema
-
-<div class="mx-auto w-[82%] mt-16">
-
-```mermaid
-%%{init: {"theme": "base", "themeVariables": {"background": "transparent", "fontSize": "24px", "lineColor": "#feb811", "primaryColor": "#033388", "primaryBorderColor": "#feb811", "primaryTextColor": "#f8fbff", "secondaryColor": "#033388", "secondaryTextColor": "#f8fbff", "tertiaryColor": "#033388", "tertiaryBorderColor": "#feb811", "tertiaryTextColor": "#f8fbff", "edgeLabelBackground": "#002156"}}}%%
-flowchart LR
-  cliente[Cliente]
-  pedido[Pedido]
-  item[ItemPedido]
-  produto[Produto]
-
-  cliente -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>faz</span>| pedido
-  pedido -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>tem vários</span>| item
-  item -->|<span style='font-size:14px;padding:0 6px;display:inline-block'>tem um</span>| produto
-
-  classDef entidade fill:#033388,stroke:#feb811,stroke-width:2px,color:#f8fbff;
-  class cliente,pedido,item,produto entidade;
-```
-
-</div>
-
----
 
 # Como funciona Django + DRF
 
@@ -245,26 +219,34 @@ class: clientes-table-slide
 <div class="mt-8 mx-auto max-w-4xl text-left">
 
 ````md magic-move
-```python{|6}
-class PedidoListAPIView(generics.ListAPIView):
-  serializer_class = ReportSerializer
-  ...
-
-  def get_queryset(self):
-    queryset = Pedido.objects.order_by("-data_criacao")
-```
-```python{6-8}
+```python
 class PedidoListAPIView(generics.ListAPIView):
   serializer_class = ReportSerializer
   ...
 
   def get_queryset(self):
     queryset = Pedido.objects
-      .select_related("cliente")
       .order_by("-data_criacao")
 ```
+```python
+class PedidoListAPIView(generics.ListAPIView):
+  serializer_class = ReportSerializer
+  ...
+
+  def get_queryset(self):
+    queryset = Pedido.objects
+      .order_by("-data_criacao")
+      .select_related("cliente")
+```
 ````
+
   </div>
+
+---
+layout: image
+image: /017_join_silk.png
+backgroundSize: contain
+---
 
 ---
 layout: image
@@ -491,8 +473,8 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 
 <Transform origin="top left">
   <ul class="mt-8 font-semibold text-left pl-10 leading-tight">
-    <li>N+1, memory leaks, e coluna não-serializada são <span style="color:#feb811">problemas universais</span> de qualquer ORM</li>
-    <li>Quem usa padrões de repositório também!</li>
+    <li>N+1, excesso de dados retornados são <span style="color:#feb811">problemas universais</span> de qualquer ORM, independente de linguagem</li>
+    <li>Quem usa padrões de repositórios também pode cometer esses erros.</li>
   </ul>
 </Transform>
 
@@ -507,6 +489,29 @@ def test_pedidos_list_endpoint_serializa_apenas_colunas_esperadas():
 </div>
 
 ---
+
+# Mas eu uso Pandas 🐼
+
+o mesmo erro conceitual pode ocorrer
+
+❌ N+1: iterrows + lookup - busca sequencial lenta
+
+```python
+for _, pedido in pedidos.iterrows():
+    cliente = clientes[
+        clientes['id'] == pedido['cliente_id']
+    ]
+```
+✅ Merge vetorizado - otimizado, uma passada (500x mais rápido)
+```python
+resultado = pedidos.merge(
+    clientes[['id', 'nome']],
+    left_on='cliente_id',
+    right_on='id'
+)
+```
+
+---
 layout: section
 ---
 
@@ -518,9 +523,18 @@ layout: section
 - Testes de regressão são fundamentais — `django_assert_num_queries()` previne surpresas
 - Colunas desnecessárias consomem memória — busque só que você quer com `.only()`
 - Estes problemas existem em qualquer ORM — FastAPI, Flask, SQLAlchemy, etc
-- Código gerado por IA frequentemente tem esses erros — entender esses conceitos é crítico para revisar e corrigir
 
 </div>
+
+
+---
+layout: section
+---
+
+# ...e AImiguinhes 🤖
+
+###  Código gerado por IA frequentemente tem esses erros — entender esses conceitos é crítico para revisar e corrigir
+
 
 ---
 layout: end
@@ -532,39 +546,5 @@ layout: end
 - https://linkedin.com/in/rodrigobvieira
 
 <img src="/qrcode.png" alt="QR Code" style="width: 252px; max-width: 70%; margin: 1.5rem auto 0;" />
-<p style="color: #ffffff; font-size: 0.95rem; margin-top: 0.75rem;">github.com/rodbv/orms-erros-comuns</p>
 
----
-
-# Pós-crédito: E se eu uso Pandas?
-
-#### O mesmo tipo de erro é possível: carregar dados em loop
-
-❌ N+1: iterrows + lookup - busca sequencial lenta
-```python
-for _, pedido in pedidos.iterrows():
-    cliente = clientes[
-        clientes['id'] == pedido['cliente_id']
-    ]
-```
-
-✅ Merge vetorizado - operação vetorizada, uma passada
-```python
-resultado = pedidos.merge(
-    clientes[['id', 'nome']],
-    left_on='cliente_id',
-    right_on='id'
-)
-```
-
----
-layout: end
----
-
-# Agora tchau mesmo
-
-- rodrigo.vieira@gmail.com
-- https://linkedin.com/in/rodrigobvieira
-
-<img src="/qrcode.png" alt="QR Code" style="width: 252px; max-width: 70%; margin: 1.5rem auto 0;" />
-<p style="color: #ffffff; font-size: 0.95rem; margin-top: 0.75rem;">github.com/rodbv/orms-erros-comuns</p>
+#### Código e slides <p>github.com/rodbv/orms-erros-comuns</p>

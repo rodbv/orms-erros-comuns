@@ -168,7 +168,7 @@ body,
 
 /* Increase code block font size */
 .slidev-code {
-  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
+  font-family: 'PT Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
   font-size: 1em !important;
 }
 
@@ -186,7 +186,7 @@ body,
 
 /* Override theme-level code variables (Dracula) */
 .slidev-layout {
-  --slidev-code-font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
+  --slidev-code-font-family: 'PT Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
   --slidev-code-background: #ffffff !important;
   --prism-background: #ffffff !important;
   --cm-background: #ffffff !important;
