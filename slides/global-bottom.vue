@@ -4,8 +4,6 @@
   </div>
 
   <div v-if="$nav.currentLayout !== 'cover'" class="deck-footer" aria-hidden="true">
-    <div class="deck-footer__microcopy">Python Floripa #93</div>
-
     <div class="deck-footer__track">
       <div
         class="deck-footer__bar"

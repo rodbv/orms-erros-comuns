@@ -403,7 +403,7 @@ def get_queryset(self):
         .prefetch_related(Prefetch("itens")
     )
 ```
-```python{|5-}
+```python
 def get_queryset(self):
     queryset = (
         Pedido.objects.order_by("-data_criacao")
