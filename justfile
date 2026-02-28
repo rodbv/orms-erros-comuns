@@ -1,10 +1,9 @@
 
 
 
-# Run Django with Debug Toolbar enabled and Silk disabled
+# Run Django with Debug Toolbar (DDT and Silk mutually exclusive)
 ddt:
-    DJANGO_SETTINGS_MODULE=backend.settings \
-    DDT_ENABLED=1 SILK_DISABLED=1 && just app
+    just app ddt
 
 test *args:
     uv run pytest {{args}}
@@ -34,10 +33,15 @@ frontend-install:
 frontend:
     cd frontend && (sleep 2 && (xdg-open http://localhost:3000 || open http://localhost:3000) >/dev/null 2>&1 &) && npm run dev -- --host --port 3000
 
-app:
+app mode="":
     #!/usr/bin/env bash
     set -euo pipefail
-    uv run python manage.py runserver >/tmp/orms-erros-comuns-backend.log 2>&1 &
+    # Default (mode=""): Silk, no DDT. With mode=ddt: DDT, no Silk.
+    if [ "{{mode}}" = "ddt" ]; then
+      DDT_ENABLED=1 uv run python manage.py runserver >/tmp/orms-erros-comuns-backend.log 2>&1 &
+    else
+      DDT_ENABLED=0 uv run python manage.py runserver >/tmp/orms-erros-comuns-backend.log 2>&1 &
+    fi
     backend_pid=$!
     trap 'kill "$backend_pid"' EXIT INT TERM
     cd frontend

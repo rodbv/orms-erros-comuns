@@ -21,12 +21,13 @@ INSTALLED_APPS = [
     "api",
 ]
 
-# Conditionally add Silk unless disabled
-if not TESTING and not os.environ.get("SILK_DISABLED"):
+# Silk is default; add unless testing or DDT is enabled (mutually exclusive)
+_ddt_enabled = os.environ.get("DDT_ENABLED", "").strip().lower() in ("1", "true", "yes")
+if not TESTING and not _ddt_enabled:
     INSTALLED_APPS.insert(7, "silk")
 
 # Conditionally add Django Debug Toolbar
-if os.environ.get("DDT_ENABLED"):
+if _ddt_enabled:
     INSTALLED_APPS.append("debug_toolbar")
 
 MIDDLEWARE = [
@@ -39,15 +40,15 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# Conditionally add Silk middleware unless disabled
-if not TESTING and not os.environ.get("SILK_DISABLED"):
+# Conditionally add Silk middleware (default unless DDT enabled)
+if not TESTING and not _ddt_enabled:
     MIDDLEWARE.append("silk.middleware.SilkyMiddleware")
 
 # Conditionally add Debug Toolbar middleware (should be near the top)
-if os.environ.get("DDT_ENABLED"):
+if _ddt_enabled:
     MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
     # Debug Toolbar config
-if os.environ.get("DDT_ENABLED"):
+if _ddt_enabled:
     INTERNAL_IPS = [
         "127.0.0.1",
         "localhost",

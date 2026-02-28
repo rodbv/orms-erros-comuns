@@ -1,4 +1,11 @@
+
 # ORMs - Erros Comuns
+
+> **Nota:** Este branch (`ddt`) possui suporte ao Django Debug Toolbar. Para rodar o projeto com o Debug Toolbar ativado, use o comando:
+>
+>     just ddt
+>
+O Debug Toolbar estará disponível em http://localhost:8000/__debug__/
 
 Repositório da talk educacional **"ORMs em Python: evitando os erros mais comuns"** apresentada na **Python Floripa 93** em 28/02/2026.
 
