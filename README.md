@@ -23,6 +23,7 @@ Armadilhas comuns ao usar ORMs, com foco em Django/DRF mas cobrindo conceitos un
 ## 📦 Configuração
 
 ### Pré-requisitos
+
 - Python 3.14+
 - Node.js 18+
 - `uv` (gerenciador de pacotes Python)
@@ -44,7 +45,16 @@ just reseed
 just run
 ```
 
+**Nota:** O branch (`ddt`) possui suporte ao Django Debug Toolbar. Para rodar o projeto com o Debug Toolbar ativado, use o comando:
+
+```
+just ddt
+```
+
+O Debug Toolbar estará disponível em http://localhost:8000/admin/
+
 **Endpoints**:
+
 - API: http://localhost:8000/api/pedidos/
 - Admin: http://localhost:8000/admin/
 
@@ -86,6 +96,7 @@ just slides-build
 ```
 
 **Estrutura de Slides**:
+
 1. Intro: O que são ORMs
 2. Fundamentos de Django + DRF
 3. Problema N+1 + diagnóstico
@@ -124,11 +135,11 @@ just slides       # Slidev (desenvolvimento)
 
 ### Otimização do Django ORM
 
-| Problema | Solução |
-|----------|---------|
-| N+1 ForeignKey | `.select_related("campo")` |
-| N+1 Reverse/M2M | `.prefetch_related("campo")` |
-| Colunas extras | `.only("id", "nome", ...)` |
+| Problema           | Solução                        |
+| ------------------ | ------------------------------ |
+| N+1 ForeignKey     | `.select_related("campo")`     |
+| N+1 Reverse/M2M    | `.prefetch_related("campo")`   |
+| Colunas extras     | `.only("id", "nome", ...)`     |
 | Regressão de Query | `django_assert_num_queries(N)` |
 
 ### Equivalentes em Outras ORMs
@@ -163,6 +174,7 @@ just slides       # Slidev (desenvolvimento)
 **Código**: MIT License - veja [LICENSE](LICENSE)
 
 **Slides**: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+
 - Você pode usar, modificar e compartilhar os slides desde que atribua autoria e mantenha a mesma licença
 
 ## 👤 Autor
