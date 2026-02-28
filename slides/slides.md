@@ -531,7 +531,7 @@ layout: section
 layout: section
 ---
 
-# ...e AImiguinhes 🤖
+# ...e 🤖
 
 ###  Código gerado por IA frequentemente tem esses erros — entender esses conceitos é crítico para revisar e corrigir
 
