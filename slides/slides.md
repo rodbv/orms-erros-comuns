@@ -76,6 +76,11 @@ WHERE ("preco" <= 100
 ORDER BY "data_criacao" DESC
 ```
 
+### Além disso:
+- Suporte a migrations
+- Features de segurança (ex parametrização de queries contra SQL Injection)
+- Mesma sintaxe para diferentes tipos de banco de dados
+
 ---
 layout: image
 image: /005_25-itens.png

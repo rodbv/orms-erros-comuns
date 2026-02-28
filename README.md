@@ -51,7 +51,7 @@ just run
 just ddt
 ```
 
-O Debug Toolbar estará disponível em http://localhost:8000/admin/
+O Debug Toolbar aparece como uma barra lateral (sidebar) nas páginas; o acesso direto é em http://localhost:8000/admin/
 
 **Endpoints**:
 
